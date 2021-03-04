@@ -69,6 +69,8 @@ var createTaskEl = function(taskDataObj) {
     // push new prop/value to taskDataObj
     tasks.push(taskDataObj);
 
+    saveTasks();
+
     taskIdCounter++;
 }  
 
@@ -141,6 +143,7 @@ var deleteTask = function(taskId) {
     }
     //reassign task array to be the sane as updatedTaskArr
     tasks = updatedTaskArr;
+    saveTasks();
 }
 
 var editTask = function(taskId) {
@@ -172,6 +175,8 @@ var completeEditTask = function(taskName, taskType, taskId) {
             tasks[i].type = taskType;
         }
     }
+    // runs save task function to save tasks to localStorage
+    saveTasks()
     alert("Task Updated!");
 
     formEl.removeAttribute("data-task-id");
@@ -207,6 +212,12 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
+    saveTasks();
+}
+
+// function to save to localStorage
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 formEl.addEventListener("submit", taskFormHandler);
